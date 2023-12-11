@@ -14,8 +14,6 @@ public class BackgroundAnim : MonoBehaviour
         _endPos.x = GetComponent<SpriteRenderer>().sprite.rect.width / 100.0f;
         _endPos.y = GetComponent<SpriteRenderer>().sprite.rect.height / 100.0f;
         _startPos = transform.position;
-        
-        Debug.Log(_endPos);
     }
 
     void Update()

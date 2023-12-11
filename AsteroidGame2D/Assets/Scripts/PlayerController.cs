@@ -64,41 +64,38 @@ public class PlayerController : MonoBehaviour
 
     private void Accelerate()
     {
-        if (_isAccelerating)
+        if (!_isAccelerating) return;
+        
+        if (_currentSpeed < maxSpeed)
+            _currentSpeed += acceleration;
+        else
         {
-            if (_currentSpeed < maxSpeed)
-                _currentSpeed += acceleration;
-            else
-            {
-                _currentSpeed = maxSpeed;
-            }
-    
-            _rb.velocity = GetFacingDirection() * (_currentSpeed * Time.fixedDeltaTime);
+            _currentSpeed = maxSpeed;
         }
+    
+        _rb.velocity = GetFacingDirection() * (_currentSpeed * Time.fixedDeltaTime);
     }
     
     private void Brake()
     {
-        if (_isBraking)
+        if (!_isBraking) return;
+        
+        if (_currentSpeed - acceleration > 0)
+            _currentSpeed -= acceleration;
+        else
         {
-            if (_currentSpeed > 0)
-                _currentSpeed -= acceleration;
-            else
-            {
-                _currentSpeed = 0;
-            }
-
-            _rb.velocity = (_rb.velocity.normalized * (-1)) * (_currentSpeed * Time.fixedDeltaTime);
+            _currentSpeed = 0;
         }
+            
+        _rb.velocity = _rb.velocity.normalized * (_currentSpeed * Time.fixedDeltaTime);
     }
 
     private void Rotate()
     {
-        if (_rotationInput != 0)
-        {
-            float rotation = _rotationInput * rotationSpeed * Time.fixedDeltaTime;
-            _rb.MoveRotation(_rb.rotation - rotation);
-        }
+        if (_rotationInput == 0) return;
+        
+        float rotation = _rotationInput * rotationSpeed * Time.fixedDeltaTime;
+        _rb.MoveRotation(_rb.rotation - rotation);
     }
     
     private Vector2 GetFacingDirection()
