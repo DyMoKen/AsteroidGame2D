@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] [Range(100.0f, 500.0f)] private float maxSpeed = 5f;
     [SerializeField] [Range(5.0f, 50.0f)] private float acceleration = 5.0f;
     [SerializeField] [Range(5.0f, 90.0f)] private float rotationSpeed = 5.0f;
+    [SerializeField] private GameObject deathVFX;
     
     private float _currentSpeed = 0.0f;
     private float _rotationInput = 0.0f;
@@ -88,6 +89,12 @@ public class PlayerController : MonoBehaviour
         }
             
         _rb.velocity = _rb.velocity.normalized * (_currentSpeed * Time.fixedDeltaTime);
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Destroy(gameObject);
+        Instantiate(deathVFX, transform.position, Quaternion.identity);
     }
 
     private void Rotate()
